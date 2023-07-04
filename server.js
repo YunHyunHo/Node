@@ -39,6 +39,10 @@ app.post('/add', function(요청, 응답){
   
 });
 
+app.get('/delete', (요청, 응답) => {
+  console.log(요청.body)
+})
+
 app.get('/list', (요청, 응답) => {
   db.collection('post').find().toArray((에러, 결과) => {
     console.log(결과)
