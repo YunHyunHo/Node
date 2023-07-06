@@ -25,7 +25,6 @@ app.get('/write', function(요청, 응답) {
 app.post('/add', function(요청, 응답){
   응답.send('전송완료');
   db.collection('counter').findOne({name: '게시물갯수'}, (에러, 결과) => {
-    console.log(결과.totalPost)
     
     let total = 결과.totalPost
     
@@ -39,14 +38,17 @@ app.post('/add', function(요청, 응답){
   
 });
  
-app.get('/delete', (요청, 응답) => {
+app.delete('/delete', function(요청, 응답){
   console.log(요청.body)
-})
+  요청.body._id = parseInt(요청.body._id) 
+  db.collection('post').deleteOne(요청.body, (에러, 결과) => {
+    console.log('삭제완료')
+  })
+});
 
 app.get('/list', (요청, 응답) => {
   db.collection('post').find().toArray((에러, 결과) => {
-    console.log(결과)
     응답.render('list.ejs', {posts: 결과})
-  });
+  })
   
 })
