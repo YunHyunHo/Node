@@ -43,6 +43,8 @@ app.delete('/delete', function(요청, 응답){
   요청.body._id = parseInt(요청.body._id) 
   db.collection('post').deleteOne(요청.body, (에러, 결과) => {
     console.log('삭제완료')
+    // 요청을 성공했습니다.
+    응답.status(200).send({ message: '성공했습니다.'});
   })
 });
 
@@ -52,3 +54,12 @@ app.get('/list', (요청, 응답) => {
   })
   
 })
+
+// detail
+
+app.get('/detail/:id', (요청, 응답) => {
+  db.collection('post').findOne({ _id : parseInt(요청.params.id) }, (에러, 결과) => {
+    console.log(결과)
+    응답.render('detail.ejs', {data : 결과} )
+  })
+});
