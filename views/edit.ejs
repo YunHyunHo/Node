@@ -9,19 +9,20 @@
   <title>Document</title>
 </head>
 <body>
+  <%- include('nav.html') %>
   <div class="container">
     <!-- form에 action='add' method='post'가 없으면 데이터를 전달할 수 없다. -->
     <!-- method = 어떤 방식으로 정보를 전달할꺼냐 action = 요청할 경로를 적어준다. -->
-    <form action="/add" method="POST">
+    <form action="/add?_method=PUT" method="POST">
       <div class="form-group">
         <label>오늘의 할일</label>
-        <input type="text" class="form-control" name="title">
+        <input type="text" class="form-control" name="title" value="<%= post.제목 %>">
       </div>
       <div class="form-group">
         <label>날짜</label>
-        <input type="text" class="form-control" name="date">
+        <input type="text" class="form-control" name="date" value="<%= post.날짜 %>">
       </div>
-      <button type="submit" class="btn btn-outline-secondary">Submit</button>
+      <button type="submit" class="btn btm-primary btn-outline-secondary">Submit</button>
     </form>  
   </div>
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"

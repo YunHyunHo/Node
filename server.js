@@ -3,6 +3,11 @@ const app = express();
 app.use(express.urlencoded({extended: true})) 
 const MongoClient = require('mongodb').MongoClient;
 app.set('view engine', 'ejs');
+const methodOverride = require('method-override')
+app.use(methodOverride('_method'))
+
+// static파일을 보관하기 위해 publick폴더를 쓸꺼다. 라고 명시
+app.use('/publick', express.static('publick'))
 
 var db;
 MongoClient.connect('mongodb+srv://roal3437:dlsrksemf1@cluster0.aj3m5a2.mongodb.net/?retryWrites=true&w=majority', { useUnifiedTopology: true }, function (에러, client) {
@@ -15,11 +20,11 @@ MongoClient.connect('mongodb+srv://roal3437:dlsrksemf1@cluster0.aj3m5a2.mongodb.
 });
 
 app.get('/',(req, res) => {
-  res.sendFile(__dirname + '/index.html')
+  res.render('index.ejs')
 })
 
 app.get('/write', function(요청, 응답) { 
-  응답.sendFile(__dirname +'/write.html')
+  응답.render('write.ejs')
 });
 
 app.post('/add', function(요청, 응답){
@@ -63,3 +68,9 @@ app.get('/detail/:id', (요청, 응답) => {
     응답.render('detail.ejs', {data : 결과} )
   })
 });
+
+app.get('/edit/:id', (요청,응답) => {
+  db.collection('post').findOne({_id : parseInt(요청.params.id)}, (에러, 결과) =>{
+    응답.render('edit.ejs', {post: 결과})
+  })
+})
